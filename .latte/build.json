@@ -1,0 +1,23 @@
+{
+	"keys": {
+
+	},
+	"build": [
+		{
+			"command": "three",
+			"types": "js",
+			"basic": "../../latte_lib/build/latte_lib.js",
+			"files": {
+				"./lib": "latte_io"
+			},
+			"out": "./build/{{version}}/{{name}}.js"
+		},
+		{
+			"command": "copy",
+			"type": "js",
+			"in": ["./build/{{version}}/{{name}}.js"],
+			"out": ["./build/{{name}}.js"]
+		}
+
+	]
+}
