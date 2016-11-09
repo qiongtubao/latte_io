@@ -1,0 +1,37 @@
+<html>
+<head>
+	<script type="text/javascript" src="latte_dom.js"></script>
+	<script type="text/javascript" src="latte_io.js"></script>
+</head>
+<body>
+	<div latte-controller="chat">
+            
+        <input type="text" latte-duplex="sendContent" />
+ 		<button latte-click="send">send</button>
+       
+        <textarea latte-duplex="content">
+
+        </textarea>
+	</div>
+</body>
+
+<script type="text/javascript">
+	var latte_dom = latte.require("latte_dom");
+	var latte_lib = latte.require("latte_lib")
+	var rpcSocket = latte.require("latte_io/rpcSocket");
+	var socket = new rpcSocket("http://127.0.0.1:10065/chat");
+	var domData = latte_lib.object.create({
+	    sendContent: "",
+	    send: function() {
+	    	socket.send("test",[this.get("sendContent")]);
+	    }
+  	});
+	socket.Set("test", function(id, data) {
+		domData.set("content" , (domData.get("content") ?  domData.get("content") + "\n" + id + ":" + data : id + ":" + data));
+	})
+  	
+  	var box = latte_dom.define("chat", domData);
+
+
+</script>
+</html>
